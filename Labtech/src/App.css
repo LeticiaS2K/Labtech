@@ -1,0 +1,66 @@
+:root {
+
+  /*VARIAVEIS UNIVERSAIS*/
+  --main-color: #1177EF; /* Cor Principal*/
+  --background-color: #FFFFFF;/*COR DE FUNDO*/
+  --border-color: #1177EF; /* Cor das bordas */
+  --card-radius: 1.25rem; /*bordas dos cards*/;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /*Sombra dos cards*/
+
+  /*margens*/
+  --space-sm:0.5rem; /*margem pequena*/
+  --space-md: 1rem; /*margem média*/
+  --space-lg:1.5rem;/*margem grande*/
+
+  /*VARIAVEIS DE FONTE*/
+  --main-font: "Poppins", sans-serif;/*fONTE PRINCIPAL*/
+  --weight-regular: 400; /*PESO REGULAR DA FONTE*/
+  --weight-medium: 500; /*PESO MEDIO DA FONTE*/
+  --weight-semi-bold: 600; /*PESO SEMI-BOLD DA FONTE*/
+  --weight-bold: 700; /*PESO BOLD DA FONTE*/
+  --default-color-text: #000000 ;
+ 
+
+ /*TAMANHO DAS FONTES*/
+  --size-h1: 2.83rem; /* 34 pt */
+  --size-h2: 2.65rem; /* 32 pt */
+  --size-h3: 2rem;    /* 24 pt */
+  --size-h4: 1.67rem; /* 20 pt */
+  --size-h5: 1.33rem; /* 16 pt */
+  --size-h6: 1.17rem; /* 14 pt */
+  --size-h7: 1rem;    /* 12 pt */
+  --size-h8: 0.83rem; /* 10 pt */
+
+  
+
+ /*VARIAVEIS DE LOGIN: */
+  --login-titles-color:#000000;/* EMAIL / SENHA -> TITULOS*/
+  --login-text-button:#FFFFFF; /* TEXTO "LOGIN" */
+  --login-input-text:#636364; /* TEXTO DAS CREDENCIASI*/
+  --login-remember-text:#000000; /*TEXTO "LEMBRE-ME" / "ESQUECI A SENHA"*/
+  --login-no-count:#000000; /*TEXTO "NÃO TEM CONTA" */
+  --login-sign-link:#627CFF;/*TEXTO ""INSCREVER-SE*/
+
+  /*VARIAVEIS HOME */
+  
+  --card-primary-text: #FFFFFF; /*texto dentro dos cards*/
+  --sidebar-width: 6rem ; /*largura da navleft */
+}
+
+body{
+  margin: 0; /*margem centralizada*/
+  font-family: var(--main-font); /*definindo fonte*/
+  font-weight: var(--weight-regular); 
+  font-size: var(--size-h6) ;
+  background-color: var(--background-color);
+  color: var(--default-color-text);
+  line-height: 1.5 ; 
+}
+
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+
+
+
