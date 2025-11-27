@@ -1,0 +1,142 @@
+/* ------------------------------------------- */
+/* === VARIAVEIS E CONFIGURAÇÕES GLOBAIS === */
+/* ------------------------------------------- */
+:root {
+  --primary-blue: #2563eb;
+  --secondary-blue: #1e4ed8;
+  --light-bg: #f9fafb;
+  --dark-text: #1f2937;
+  --neutral-gray: #6b7280;
+  --border-color: #d1d5db;
+}
+
+.entrega-chaves-container {
+  display: flex;
+  flex-direction: column;
+  margin: 5% 20% 0% 20%;
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .entrega-chaves-container { padding: 3rem; }
+}
+
+/* ------------------------------------------- */
+/* === ESTILOS DO CARD DO FORMULÁRIO === */
+/* ------------------------------------------- */
+.form-card {
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 16px; /* Aumentado para melhor estética */
+  padding: 3rem 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+.form-title {
+  font-size: 2rem; /* Aumentado para impacto */
+  font-weight: 800;
+  color: var(--dark-text);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+  font-size: 1rem;
+  color: var(--neutral-gray);
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* ------------------------------------------- */
+/* === LAYOUT E CAMPOS DO FORMULÁRIO === */
+/* ------------------------------------------- */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem 2.5rem; /* Espaçamento entre linhas e colunas */
+}
+
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .full-width-field {
+    grid-column: 1 / 3; /* Ocupa as duas colunas */
+  }
+}
+
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--dark-text);
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.form-input, .form-textarea {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  font-size: 1rem;
+  transition: border-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+}
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--primary-blue);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); /* Sombra de foco mais nítida */
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ------------------------------------------- */
+/* === BOTÕES DE AÇÃO === */
+/* ------------------------------------------- */
+.button-group {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.form-button {
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  border: 1px solid transparent;
+}
+
+/* Botão Cancelar/Secundário */
+.cancel-button {
+  background-color: white;
+  color: #4b5563;
+  border: 1px solid var(--border-color);
+}
+.cancel-button:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+/* Botão Confirmar/Primário */
+.confirmar-button {
+  background-color: var(--primary-blue);
+  color: white;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4); /* Sombra mais destacada */
+}
+.confirmar-button:hover {
+  background-color: var(--secondary-blue);
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.5);
+}
+.confirmar-button:active {
+  background-color: #1c3d9a;
+}

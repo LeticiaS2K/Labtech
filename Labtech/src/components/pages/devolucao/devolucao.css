@@ -1,0 +1,201 @@
+/* ------------------------------------------- */
+/* === VARIAVEIS E CONFIGURAÇÕES GLOBAIS === */
+/* ------------------------------------------- */
+:root {
+  --primary-blue: #2563eb;
+  --secondary-blue: #1e4ed8;
+  --light-bg: #f9fafb;
+  --dark-text: #1f2937;
+  --neutral-gray: #6b7280;
+  --border-color: #d1d5db;
+  --light-border: #e5e7eb;
+}
+
+.devolucao-chaves-container {
+  padding: 2rem;
+  background-color: var(--light-bg);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (min-width: 640px) {
+  .devolucao-chaves-container { padding: 3rem; }
+}
+
+
+/* ------------------------------------------- */
+/* === ESTILOS DE TÍTULO === */
+/* ------------------------------------------- */
+
+.title-section {
+font-size: 2rem; /* Aumentado para impacto */
+  font-weight: 800;
+  color: var(--dark-text);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.main-title {
+  font-size: 2rem; /* Aumentado para impacto */
+  font-weight: 800;
+  color: var(--dark-text);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.main-subtitle {
+  font-size: 1rem;
+  color: var(--neutral-gray);
+}
+
+/* ------------------------------------------- */
+/* === LAYOUT PRINCIPAL (GRID) === */
+/* ------------------------------------------- */
+.main-content-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    align-items: flex-start; /* Alinha o conteúdo ao topo */
+}
+
+@media (min-width: 768px) {
+    .main-content-grid {
+        grid-template-columns: 2fr 1fr; /* 2/3 para detalhes, 1/3 para confirmação */
+        gap: 4rem;
+    }
+}
+
+/* ------------------------------------------- */
+/* === LADO ESQUERDO: DETALHES DO EMPRÉSTIMO === */
+/* ------------------------------------------- */
+.loan-details-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05); /* Sombra mais leve */
+    border: 1px solid var(--light-border);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.detail-item-group {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f3f4f6; /* Borda divisória sutil */
+}
+/* Remove a borda do último item */
+.loan-details-card > .detail-item-group:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.detail-label {
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 600;
+    color: var(--dark-text);
+    text-transform: uppercase;
+    flex-shrink: 0; /* Não permite que a label encolha */
+    padding-right: 1rem;
+}
+
+.detail-value {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--neutral-gray);
+    text-align: right;
+    word-break: break-word;
+}
+
+/* ------------------------------------------- */
+/* === LADO DIREITO: CONFIRMAÇÃO DE DEVOLUÇÃO === */
+/* ------------------------------------------- */
+.confirmation-card {
+    padding-top: 0.5rem;
+}
+
+.confirmation-title {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 1.5rem;
+    text-align: left;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-blue);
+    display: inline-block; /* Faz a borda azul se ajustar ao texto */
+}
+
+.confirmation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* Campos do Formulário */
+.form-field-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.form-input {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    font-size: 1rem;
+    transition: border-color 150ms ease-in-out, box-shadow 150ms ease-in-out;
+}
+.form-input:focus {
+    border-color: var(--primary-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* Botões de Ação */
+.button-group {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.form-button {
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  border: 1px solid transparent;
+  min-width: 90px;
+}
+
+.cancel-button {
+  background-color: white;
+  color: #4b5563;
+  border: 1px solid var(--border-color);
+}
+.cancel-button:hover {
+  background-color: #f3f4f6;
+}
+
+.confirmar-button {
+  background-color: var(--primary-blue);
+  color: white;
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.4);
+}
+.confirmar-button:hover {
+  background-color: var(--secondary-blue);
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.5);
+}

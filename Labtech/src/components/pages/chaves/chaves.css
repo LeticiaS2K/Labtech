@@ -1,0 +1,73 @@
+
+/* === GLOBAL CONTAINER STYLES === */
+.chaves-container {
+      display: flex;
+  flex-direction: column;
+  margin: 5% 20% 0% 20%;
+  gap: 24px;
+   
+}
+
+
+/* === ACTION sub-CARDS (ENTREGA/DEVOLUÇÃO) STYLES === */
+.action-subcards-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.5rem; /* gap-6 */
+    margin-top: 1.5rem; /* mt-6 */
+}
+@media (min-width: 768px) { /* md:grid-cols-2 */
+    .action-subcards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.action-subcard {
+    background-color: #ffffff; /* bg-white */
+    border-radius: 22px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    padding: 2rem; /* p-8 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    transition: box-shadow 150ms ease-in-out;
+    border: 1px solid #f3f4f6; /* border-gray-100 */
+}
+.action-sub-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* hover:shadow-xl */
+}
+
+.action-title {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 700; /* font-bold */
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* tracking-wider */
+    color: #1f2937; /* text-gray-800 */
+    margin-bottom: 2rem; /* mb-8 */
+}
+
+.action-button {
+    background-color: #2563eb; /* bg-blue-600 */
+    color: #ffffff; /* text-white */
+    font-weight: 600; /* font-semibold */
+    padding: 0.75rem 3rem; /* py-3 px-12 */
+    border-radius: 0.5rem; /* rounded-lg */
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* tracking-wider */
+    transition: all 200ms ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
+    border: none;
+}
+.action-button:hover {
+    background-color: #1d4ed8; /* hover:bg-blue-700 */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05); /* hover:shadow-lg */
+}
+.action-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.5); /* focus:ring-4 focus:ring-blue-300 */
+}
+.action-button:active {
+    background-color: #1e40af; /* active:bg-blue-800 */
+}
