@@ -1,1 +1,45 @@
+/* src/components/Sidebar/Sidebar.css */
+.sidebar {
+  width: 70px;
+  background: #ffffff;
+  border-right: 1px solid #f0f0f0;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.sidebar__top,
+.sidebar__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sidebar__item {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: 0.2s;
+}
+
+.sidebar__item img {
+  width: 42px;
+  height: 42px;
+}
+
+.sidebar__item:hover {
+  background: #f2f6ff;
+}
+
+.sidebar__item--active {
+  background: #1f86ff;
+  box-shadow: 0 4px 10px rgba(0, 109, 255, 0.25);
+}

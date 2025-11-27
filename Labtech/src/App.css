@@ -61,6 +61,24 @@ body{
     box-sizing: border-box;
 }
 
+/* src/App.css */
+.app {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.app__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* .app__content {
+  flex: 1;
+  padding: 10rem;
+} */
+
 
 
 

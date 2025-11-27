@@ -1,0 +1,61 @@
+/* src/components/Header/Header.css */
+.header {
+  height: 70px;
+  background: #ffffff;
+  border-bottom: 1px solid #f3f3f3;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.header__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: #e5e7eb;
+}
+
+.header__toggle {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.15);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Centro: logo */
+.header__center {
+  flex: 1;
+  display: flex;
+  justify-content: left;
+}
+
+.header__center img {
+  height: 56px;
+}
+
+/* Direita: info do usuário */
+.header__right {
+  min-width: 160px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header__user {
+  text-align: right;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.header__user-name {
+  display: block;
+  font-weight: 600;
+}
+
+.header__user-role {
+  color: #6b7280;
+}

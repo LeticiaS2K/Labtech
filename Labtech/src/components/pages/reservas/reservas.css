@@ -1,0 +1,144 @@
+.reservas {
+  display: flex;
+  flex-direction: column;
+  margin: 5% 20% 0% 20%;
+  gap: 24px;
+}
+
+/* ========= GRID INFERIOR ========= */
+
+.reservas__grid {
+  display: grid;
+  grid-template-columns: 2fr 1.3fr;
+  gap: 24px;
+}
+
+.reservas__side {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* painéis brancos */
+
+.panel {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px 28px;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+}
+
+.panel--main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.panel__title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.panel__title--center {
+  text-align: center;
+}
+
+/* ========= LISTA DE ESTATÍSTICAS ========= */
+
+.stats-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.stats-item {
+  background: #0077ff;
+  border-radius: 999px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.stats-item__label {
+  font-size: 14px;
+}
+
+.stats-item__value {
+  background: #0b5ed7;
+  min-width: 44px;
+  text-align: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+/* ========= STATUS ========= */
+
+.status-pill {
+  margin-top: 10px;
+  align-self: center;
+  max-width: 280px;
+  background: #0077ff;
+  border-radius: 999px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.status-pill__badge {
+  background: #ffffff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.status-pill__badge--danger {
+  color: #ff3b30;
+}
+
+/* ========= INFO PILL ========= */
+
+.info-pill {
+  margin-top: 10px;
+  background: #0077ff;
+  border-radius: 999px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.info-pill__label {
+  font-size: 14px;
+}
+
+.info-pill__value {
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 4px 14px;
+  color: #111827;
+  font-size: 13px;
+}
+
+/* responsivo simples */
+
+@media (max-width: 900px) {
+  .reservas__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .reservas__grid {
+    grid-template-columns: 1fr;
+  }
+}
