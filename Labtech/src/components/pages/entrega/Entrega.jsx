@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import './entrega.css'
 
 // Componente principal para a página de Entrega de Chaves
@@ -27,6 +28,8 @@ export default function Entrega() {
     console.error('Entrega de chave registrada com sucesso (simulação).');
   };
 
+  const navigate = useNavigate();
+
   const handleCancel = () => {
     console.log('Operação de entrega cancelada.');
     // Poderia redirecionar o usuário ou limpar o formulário
@@ -37,7 +40,11 @@ export default function Entrega() {
       dataHora: '',
       finalidade: '',
     });
+
+    navigate("/chaves", { replace: true }); // vai para Home
   };
+
+  
 
   // 2. JSX para o formulário e a estrutura da página
   return (

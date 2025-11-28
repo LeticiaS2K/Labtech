@@ -16,16 +16,16 @@ const topItems = [
   { id: "home", label: "Home", icon: HomeIcon, path: "/" },
   { id: "reservas", label: "Salas e Reservas", icon: CalendarIcon, path: "/reservas" },
   { id: "chaves", label: "Chaves", icon: ChaveIcon, path: "/chaves" },
-  { id: "mural", label: "Mural", icon: Reservas, path: "/mural" },
-  { id: "config", label: "Configurações", icon: EngrenagemIcon, path: "/config" },
+  // { id: "mural", label: "Mural", icon: Reservas, path: "/mural" },
+  // { id: "config", label: "Configurações", icon: EngrenagemIcon, path: "/config" },
 ];
 
 const bottomItems = [
-  { id: "ajuda", label: "Ajuda", icon: InterrogacaoIcon, path: "/ajuda" },
-  { id: "sair", label: "Sair", icon: SairIcon, path: "/login" },
+  { id: "ajuda", label: "Ajuda", icon: InterrogacaoIcon, path: "/ajuda", type: "link" },
+  { id: "sair", label: "Sair", icon: SairIcon, type: "logout" },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ onLogout })  {
   return (
     <aside className="sidebar">
       <div className="sidebar__top">
@@ -43,17 +43,34 @@ export default function Sidebar() {
       </div>
 
       <div className="sidebar__bottom">
-        {bottomItems.map((item) => (
-          <NavLink
-            key={item.id}
-            to={item.path}
-            className={({ isActive }) =>
-              "sidebar__item" + (isActive ? " sidebar__item--active" : "")
-            }
-          >
-            <img src={item.icon} alt={item.label} />
-          </NavLink>
-        ))}
+        {bottomItems.map((item) => {
+          // se for o item de logout, usa button + onLogout
+          if (item.type === "logout") {
+            return (
+              <button
+                key={item.id}
+                className="sidebar__item"
+                type="button"
+                onClick={onLogout}
+              >
+                <img src={item.icon} alt={item.label} />
+              </button>
+            );
+          }
+
+          // os outros continuam sendo NavLink normal
+          return (
+            <NavLink
+              key={item.id}
+              to={item.path}
+              className={({ isActive }) =>
+                "sidebar__item" + (isActive ? " sidebar__item--active" : "")
+              }
+            >
+              <img src={item.icon} alt={item.label} />
+            </NavLink>
+          );
+        })}
       </div>
     </aside>
   );

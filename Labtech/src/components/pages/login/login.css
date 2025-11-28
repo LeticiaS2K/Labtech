@@ -1,0 +1,190 @@
+/* LAYOUT GERAL */
+
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+/* lado esquerdo - imagem */
+
+.login-page__left {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* lado direito - fundo branco + blob azul */
+
+.login-page__right {
+  flex: 1;
+  position: relative;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* “nuvem” azul no topo direito */
+.login-page__right::before {
+  content: "";
+  position: absolute;
+  width: 460px;
+  height: 460px;
+  background: #0b70ff;
+  border-radius: 50% 50% 50% 50%;
+  top: -140px;
+  right: -120px;
+}
+
+/* caixa do formulário */
+
+.login-box {
+  position: relative;
+  z-index: 1; /* fica acima do blob */
+  width: 360px;
+  max-width: 90%;
+}
+
+/* FORM */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.login-form label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* INPUTS */
+
+.login-input {
+  width: 100%;
+  border-radius: 12px;
+  border: none;
+  background: #ffffff;
+  padding: 12px 14px;
+  font-size: 14px;
+  box-shadow: 0 0 0 1px #e5e7eb, 0 8px 15px rgba(15, 23, 42, 0.08);
+  outline: none;
+}
+
+.login-input::placeholder {
+  color: #9ca3af;
+}
+
+.login-input:focus {
+  box-shadow: 0 0 0 1px #0b70ff, 0 8px 18px rgba(37, 99, 235, 0.3);
+}
+
+/* linha: lembre-me + esqueci senha */
+
+.login-form__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.remember-me {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #111827;
+}
+
+.remember-me input {
+  width: 14px;
+  height: 14px;
+}
+
+/* BOTÃO LOGIN */
+
+.login-btn {
+  width: 100%;
+  border-radius: 999px;
+  border: none;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #0b70ff, #2b9bff);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.5);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 32px rgba(37, 99, 235, 0.55);
+}
+
+.login-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.4);
+}
+
+/* links */
+
+.login-link-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.login-link-btn--small {
+  font-size: 12px;
+}
+
+.login-link-btn--accent {
+  font-weight: 600;
+  color: #3869ff;
+}
+
+.login-signup-text {
+  margin-top: 4px;
+  text-align: center;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 900px) {
+  .login-page {
+    flex-direction: column;
+  }
+
+  .login-page__left {
+    display: none;
+  }
+
+  .login-page__right::before {
+    width: 260px;
+    height: 260px;
+    top: -120px;
+    right: -120px;
+  }
+
+  .login-box {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}

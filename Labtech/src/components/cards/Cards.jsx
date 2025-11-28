@@ -39,7 +39,7 @@ export default function Cards() {
           </h2>
         </article>
 
-        <article className="main-card">
+        {/* <article className="main-card">
           <div className="main-card__top">
             <div className="main-card__icon">
               <img src={CardMuralIcon} alt="Mural" />
@@ -47,7 +47,7 @@ export default function Cards() {
             <span className="main-card__tag">UDF</span>
           </div>
           <h2 className="main-card__title">Mural</h2>
-        </article>
+        </article> */}
       </section>
     </div>
   );

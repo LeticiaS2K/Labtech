@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { ChevronRight } from 'lucide-react';
 import './devolucao.css'
+
 
 const initialLoanData = {
   sala: "Laboratório 6",
@@ -40,12 +42,16 @@ export default function Devolucao() {
     console.error('Devolução de chave confirmada com sucesso (simulação).');
   };
 
+  const navigate = useNavigate();
+  
   const handleCancel = () => {
     console.log('Operação de confirmação de devolução cancelada.');
     setConfirmationData({
       idChave: '',
       dataHoraEntrega: '',
     });
+
+    navigate("/chaves", { replace: true }); // vai para Home
   };
 
   return (

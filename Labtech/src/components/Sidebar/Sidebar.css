@@ -14,7 +14,12 @@
 .sidebar__bottom {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+}
+
+/* aumenta o espaço logo abaixo do primeiro ícone da parte de cima */
+.sidebar__top .sidebar__item:first-child {
+  margin-bottom: 50px; /* ou o valor que quiser */
 }
 
 .sidebar__item {
@@ -33,6 +38,7 @@
 .sidebar__item img {
   width: 42px;
   height: 42px;
+  
 }
 
 .sidebar__item:hover {
@@ -40,6 +46,6 @@
 }
 
 .sidebar__item--active {
-  background: #1f86ff;
+  background: #abd2ff;
   box-shadow: 0 4px 10px rgba(0, 109, 255, 0.25);
 }
