@@ -10,6 +10,10 @@ class Usuario(db.Model):
     senha_hash = db.Column(db.String(200), nullable=False)
     criado_em = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # foto binária + tipo mime
+    foto = db.Column(db.LargeBinary, nullable=True)
+    foto_mime_type = db.Column(db.String(50), nullable=True)
+
     def set_senha(self, senha):
         self.senha_hash = generate_password_hash(senha)
 

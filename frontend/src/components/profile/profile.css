@@ -196,6 +196,18 @@
   box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4);
 }
 
+.profile-error {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #b91c1c;
+}
+
+.profile-success {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #15803d;
+}
+
 /* RESPONSIVO */
 
 @media (max-width: 900px) {

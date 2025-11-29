@@ -15,9 +15,6 @@ def create_app():
         origins=["http://localhost:5173"]
     )
 
-    instance_dir = os.path.join(os.path.dirname(__file__), "instance")
-    os.makedirs(instance_dir, exist_ok=True)
-
     db.init_app(app)
 
     from routes.auth import auth_bp

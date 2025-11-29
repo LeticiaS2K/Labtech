@@ -46,7 +46,7 @@ export default function Register({ onLogin }) {
       localStorage.setItem("user_name", data.user.nome);
 
       if (typeof onLogin === "function") {
-        onLogin(); // marca isAuth = true no App.jsx
+        onLogin(data.user); // data.user vem da API Flask
       }
 
       navigate("/", { replace: true });

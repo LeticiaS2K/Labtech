@@ -21,22 +21,41 @@ import Devolucao from "./components/pages/devolucao/Devolucao.jsx";
 function App() {
   const location = useLocation();
 
+
   // estado global da sidebar
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+
+  // estado do avatar
+  const [avatar, setAvatar] = useState(
+    () => localStorage.getItem("profileAvatar") || null
+  );
 
   // estado de autenticação (com persistência simples no localStorage)
   const [isAuth, setIsAuth] = useState(
     () => localStorage.getItem("isAuth") === "true"
   );
 
-  const handleLoginSuccess = () => {
+  // 👇 novo: usuário logado
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  });
+
+  const handleLoginSuccess = (userData) => {
     setIsAuth(true);
     localStorage.setItem("isAuth", "true");
+
+    if (userData) {
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+    }
   };
 
   const handleLogout = () => {
     setIsAuth(false);
+    setUser(null);
     localStorage.removeItem("isAuth");
+    localStorage.removeItem("user");
   };
 
   // caminhos que são páginas de autenticação (sem sidebar/header)
@@ -73,19 +92,21 @@ function App() {
   // ======= LAYOUT PRINCIPAL (COM SIDEBAR + HEADER) =======
   return (
     <div className={`app ${!isSidebarExpanded ? "app--sidebar-collapsed" : ""}`}>
-      <Sidebar
-        onLogout={handleLogout}
-        isExpanded={isSidebarExpanded}
-        setIsExpanded={setIsSidebarExpanded}
-      />
+    <Sidebar
+      user={user}
+      // avatar={avatar}                      // 👈 passa o usuário
+      onLogout={handleLogout}
+      isExpanded={isSidebarExpanded}
+      setIsExpanded={setIsSidebarExpanded}
+    />
 
       <div className="app__main">
-        <Header />
+        <Header user={user} />
 
         <main className="app__content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile user={user} onUserChange={setUser} />} />
 
             <Route path="/chaves" element={<Chaves />} />
             <Route path="/entrega" element={<Entrega />} />

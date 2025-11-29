@@ -2,15 +2,11 @@ import './chaves.css';
 import Cards from '../../cards/Cards'
 import { useNavigate } from 'react-router-dom';
 
-
-// Dados das ações inferiores
 const actionsubCardsData = [
   { label: "ENTREGA", route: "/entrega" },
   { label: "DEVOLUÇÃO", route: "/devolucao" },
 ];
 
-
-// Componente para os subCards de Ação Inferiores
 const ActionsubCards = () => {
   const navigate = useNavigate();
 
@@ -31,7 +27,6 @@ const ActionsubCards = () => {
   );
 };
 
-// Componente principal Chaves
 export default function Chaves() {
   return (
     <div className="chaves-container">

@@ -3,6 +3,7 @@ import "./login.css";
 import BgImage from "../../../assets/img/login-bg.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+
 const API_URL = "http://localhost:5000"; // porta do Flask
 
 export default function Login({ onLogin }) {
@@ -13,38 +14,28 @@ export default function Login({ onLogin }) {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
+  e.preventDefault();
+  setError(null);
 
-    try {
-      const res = await fetch(`${API_URL}/api/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // envia/recebe cookie de sessão
-        body: JSON.stringify({ email, senha }),
-      });
+  try {
+    const res = await fetch(`${API_URL}/api/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",        
+      body: JSON.stringify({ email, senha }),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!res.ok || !data.success) {
-        throw new Error(data.message || "Erro ao fazer login");
-      }
-
-      // aqui você pode guardar info do usuário no localStorage se quiser
-      localStorage.setItem("user_name", data.user.nome);
-
-      if (typeof onLogin === "function") {
-        onLogin(); // seta isAuth no App.jsx
-      }
-
-      navigate("/", { replace: true });
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Erro ao fazer login.");
     }
-  };
+
+    onLoginSuccess(data.user);
+  } catch (err) {
+    setError(err.message);
+  }
+};
 
   return (
     <div className="login-page">

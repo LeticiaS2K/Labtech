@@ -22,7 +22,17 @@ async function apiLogout() {
   }
 }
 
-export default function Sidebar({ onLogout, isExpanded, setIsExpanded }) {
+export default function Sidebar({ user, onLogout, isExpanded, setIsExpanded }) {
+  const initial =
+    user?.nome?.trim()?.charAt(0)?.toUpperCase() ||
+    user?.name?.trim()?.charAt(0)?.toUpperCase() ||
+    "U";
+
+    const hasPhoto = user?.has_photo;
+    const photoUrl = hasPhoto
+    ? `${API_URL}/api/users/${user.id}/photo`
+    : null;
+
   const [avatar, setAvatar] = useState(null);
 
   // ✅ Carrega a foto do localStorage
@@ -92,7 +102,8 @@ export default function Sidebar({ onLogout, isExpanded, setIsExpanded }) {
                 />
               ) : (
                 <div className="sidebar__avatar sidebar__avatar--placeholder">
-                  U
+                  {photoUrl ? (<img src={photoUrl} alt={user?.nome || "Foto de perfil"} />) 
+                  : ( <span>{initial}</span> )}
                 </div>
               )
             ) : (
