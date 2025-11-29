@@ -3,39 +3,50 @@ import "./login.css";
 import BgImage from "../../../assets/img/login-bg.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
-const API_URL = "http://localhost:5000"; // porta do Flask
+import { API_URL } from "../../../config/api.js"; 
 
 export default function Login({ onLogin }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);   // 👈 AQUI
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError(null);
+    e.preventDefault();
+    setError(null);
+    setLoading(true);                              // 👈 começando carregamento
 
-  try {
-    const res = await fetch(`${API_URL}/api/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",        
-      body: JSON.stringify({ email, senha }),
-    });
+    try {
+      const res = await fetch(`${API_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email, senha }),
+      });
 
-    const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
-    if (!res.ok || !data.success) {
-      throw new Error(data.message || "Erro ao fazer login.");
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Erro ao fazer login.");
+      }
+
+      if (typeof onLogin === "function") {
+        onLogin(data.user);
+      }
+
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error("Erro no login:", err);
+      if (err.message === "Failed to fetch") {
+        setError("Não foi possível conectar ao servidor.");
+      } else {
+        setError(err.message);
+      }
+    } finally {
+      setLoading(false);                           // 👈 termina carregamento
     }
-
-    onLoginSuccess(data.user);
-  } catch (err) {
-    setError(err.message);
-  }
-};
+  };
 
   return (
     <div className="login-page">
@@ -107,3 +118,6 @@ export default function Login({ onLogin }) {
     </div>
   );
 }
+
+
+  

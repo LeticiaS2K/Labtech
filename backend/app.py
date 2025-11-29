@@ -12,7 +12,14 @@ def create_app():
     CORS(
         app,
         supports_credentials=True,
-        origins=["http://localhost:5173"]
+        resources={
+            r"/api/*": {
+                "origins": [
+                    "http://localhost:5173",
+                    "http://127.0.0.1:5173",
+                ]
+            }
+        },
     )
 
     db.init_app(app)
@@ -25,8 +32,12 @@ def create_app():
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(chaves_bp)
 
+    @app.route("/api/ping")
+    def ping():
+        return {"ok": True}
+
     with app.app_context():
-        from Models import usuario, chave, entrega 
+        from Models import usuario, chave, entrega
         db.create_all()
         seed(app)
 

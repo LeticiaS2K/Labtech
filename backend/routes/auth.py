@@ -6,64 +6,30 @@ from Models.usuario import Usuario  # cuidado com o M maiúsculo, confere igual 
 
 auth_bp = Blueprint("auth", __name__)
 
-# ---------- LOGIN VIA API (React) ----------
-@auth_bp.route("/api/register", methods=["POST"])
-def api_register():
-    data = request.get_json() or {}
-    nome = data.get("nome")
-    email = data.get("email")
-    senha = data.get("senha")
-
-    if not nome or not email or not senha:
-        return jsonify({
-            "success": False,
-            "message": "Nome, e-mail e senha são obrigatórios."
-        }), 400
-
-    # verifica se já existe usuário com esse e-mail
-    if Usuario.query.filter_by(email=email).first():
-        return jsonify({
-            "success": False,
-            "message": "Já existe um usuário com esse e-mail."
-        }), 409
-
-    # cria usuário
-    user = Usuario(nome=nome, email=email)
-    user.set_senha(senha)
-
-    db.session.add(user)
-    db.session.commit()
-
-    # opcional: já loga o usuário na sessão Flask
-    session["user_id"] = user.id
-    session["user_name"] = user.nome
-
-    return jsonify({
-        "success": True,
-        "user": {
-            "id": user.id,
-            "nome": user.nome,
-            "email": user.email,
-            "has_photo": user.foto is not None,
-        }
-    }), 201
-
-
-@auth_bp.route("/login", methods=["POST"])
+# ============ LOGIN ============
+@auth_bp.route("/api/login", methods=["POST", "OPTIONS"])
 def api_login():
+    # Preflight CORS
+    if request.method == "OPTIONS":
+        return ("", 200)
+
     data = request.get_json() or {}
     email = data.get("email")
     senha = data.get("senha")
 
     if not email or not senha:
-        return jsonify({"success": False, "message": "Informe e-mail e senha."}), 400
+        return jsonify({
+            "success": False,
+            "message": "Informe e-mail e senha."
+        }), 400
 
     user = Usuario.query.filter_by(email=email).first()
-
     if not user or not user.checar_senha(senha):
-        return jsonify({"success": False, "message": "Credenciais inválidas."}), 401
+        return jsonify({
+            "success": False,
+            "message": "Credenciais inválidas."
+        }), 401
 
-    # 🔑 AQUI: grava o usuário na sessão
     session.clear()
     session["user_id"] = user.id
     session["user_name"] = user.nome
@@ -75,13 +41,63 @@ def api_login():
             "nome": user.nome,
             "email": user.email,
             "has_photo": getattr(user, "foto", None) is not None,
-        }
+        },
     }), 200
 
 
-# ---------- LOGOUT VIA API ----------
-@auth_bp.route("/api/logout", methods=["POST"])
+# ============ REGISTER ============
+@auth_bp.route("/api/register", methods=["POST", "OPTIONS"])
+def api_register():
+    # Preflight CORS
+    if request.method == "OPTIONS":
+        return ("", 200)
+
+    data = request.get_json() or {}
+    nome = data.get("nome")
+    email = data.get("email")
+    senha = data.get("senha")
+
+    if not nome or not email or not senha:
+        return jsonify({
+            "success": False,
+            "message": "Nome, e-mail e senha são obrigatórios."
+        }), 400
+
+    # e-mail já existe?
+    existing = Usuario.query.filter_by(email=email).first()
+    if existing:
+        return jsonify({
+            "success": False,
+            "message": "Já existe um usuário com esse e-mail."
+        }), 409
+
+    novo = Usuario(nome=nome, email=email)
+    novo.set_senha(senha)
+
+    db.session.add(novo)
+    db.session.commit()
+
+    session.clear()
+    session["user_id"] = novo.id
+    session["user_name"] = novo.nome
+
+    return jsonify({
+        "success": True,
+        "user": {
+            "id": novo.id,
+            "nome": novo.nome,
+            "email": novo.email,
+            "has_photo": getattr(novo, "foto", None) is not None,
+        },
+    }), 201
+
+
+# ============ LOGOUT ============
+@auth_bp.route("/api/logout", methods=["POST", "OPTIONS"])
 def api_logout():
+    if request.method == "OPTIONS":
+        return ("", 200)
+
     session.clear()
     return jsonify({"success": True}), 200
 
