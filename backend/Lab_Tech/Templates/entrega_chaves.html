@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h2>Entrega de chaves</h2>
+
+  <form method="post">
+    <label for="id_chave">ID Chave (identificação)</label><br>
+    <input id="id_chave" name="id_chave" required placeholder="Ex: LAB-06"><br><br>
+
+    <label for="professor">Professor (ou quem retirou)</label><br>
+    <input id="professor" name="professor" required><br><br>
+
+    <label for="administrador">Administrador responsável</label><br>
+    <input id="administrador" name="administrador"><br><br>
+
+    <label for="data_retirada">Data e hora de retirada (ISO) - Ex: 2025-10-21T08:30</label><br>
+    <input id="data_retirada" name="data_retirada" required placeholder="YYYY-MM-DDTHH:MM"><br><br>
+
+    <label for="finalidade">Finalidade de uso</label><br>
+    <textarea id="finalidade" name="finalidade"></textarea><br><br>
+
+    <button type="submit">Registrar entrega</button>
+  </form>
+
+  <hr>
+  <h4>Chaves disponíveis</h4>
+  <ul>
+    {% for c in chaves %}
+      <li>{{ c.identificacao }} - {{ c.descricao }}</li>
+    {% else %}
+      <li>Nenhuma chave disponível</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Bem-vindo, {{ user_name }}</h1>
+  <h3>Estatísticas</h3>
+  <ul>
+    <li>Total de chaves: {{ stats.total_chaves }}</li>
+    <li>Disponíveis: {{ stats.disponiveis }}</li>
+    <li>Entregas pendentes: {{ stats.pendentes }}</li>
+    <li>Devolvidas: {{ stats.devolvidas }}</li>
+  </ul>
+
+  <h3>Entregas Pendentes (últimas)</h3>
+  <!-- front trará o design; aqui só placeholder -->
+  <p>O front deve consumir endpoints para listar entregas e mostrar cards.</p>
+{% endblock %}
