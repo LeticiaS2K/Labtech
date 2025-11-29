@@ -1,22 +1,65 @@
 // src/components/pages/Profile.jsx
 import "./profile.css";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function Profile() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleCancel = () => {
-      navigate("/", { replace: true }); // vai para Home
+  const [avatar, setAvatar] = useState(null);
+
+  const handleCancel = () => {
+    navigate("/", { replace: true });
+  };
+
+  // ✅ Carrega foto salva ao abrir o profile
+  useEffect(() => {
+    const savedAvatar = localStorage.getItem("profileAvatar");
+    if (savedAvatar) {
+      setAvatar(savedAvatar);
+    }
+  }, []);
+
+  // ✅ Quando selecionar uma nova imagem
+  const handleAvatarChange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatar(reader.result);
+      localStorage.setItem("profileAvatar", reader.result);
     };
+
+    reader.readAsDataURL(file);
+  };
 
   return (
     <div className="profile-page">
       <section className="profile-card">
+
         {/* COLUNA ESQUERDA – FOTO + INFO BÁSICA */}
         <div className="profile-card__left">
+
+          {/* ✅ A BOLA DE PERFIL */}
           <div className="profile-avatar">
-            <span>U</span>
+            {avatar ? (
+              <img src={avatar} alt="Foto de perfil" />
+            ) : (
+              <span>U</span>
+            )}
           </div>
+
+          {/* ✅ AGORA O ALTERAR FOTO FICA EMBAIXO */}
+          <label className="profile-avatar-upload">
+            Alterar foto
+            <input
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={handleAvatarChange}
+            />
+          </label>
 
           <div className="profile-main-info">
             <h2 className="profile-name">Usuário UDF</h2>
@@ -39,11 +82,7 @@ export default function Profile() {
             <div className="profile-form__row">
               <div className="profile-form__group">
                 <label htmlFor="nome">Nome completo</label>
-                <input
-                  id="nome"
-                  type="text"
-                  placeholder="Nome do usuário"
-                />
+                <input id="nome" type="text" placeholder="Nome do usuário" />
               </div>
 
               <div className="profile-form__group">
@@ -99,7 +138,11 @@ export default function Profile() {
             </div>
 
             <div className="profile-actions">
-                <button type="button" className="profile-btn profile-btn--ghost" onClick={handleCancel}>
+              <button
+                type="button"
+                className="profile-btn profile-btn--ghost"
+                onClick={handleCancel}
+              >
                 Cancelar
               </button>
 
@@ -109,6 +152,7 @@ export default function Profile() {
             </div>
           </form>
         </div>
+
       </section>
     </div>
   );

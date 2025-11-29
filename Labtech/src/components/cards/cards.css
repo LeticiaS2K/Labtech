@@ -68,3 +68,29 @@
     grid-template-columns: 1fr;
   }
 }
+.main-card {
+  background: linear-gradient(135deg, #0b70ff, #2b9bff);
+  border-radius: 22px;
+  padding: 22px 26px;
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
+
+  /* ===== EFEITO DE HOVER ===== */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ✅ Quando o mouse passar por cima */
+.main-card:hover {
+  transform: translateY(-20px); /* sobe o card */
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.55); /* destaca mais */
+}
+/* Exemplo de correção no CSS */
+.main-card {
+    /* ... seus estilos existentes ... */
+    
+    text-decoration: none; /* Isso remove o sublinhado do Link */
+}

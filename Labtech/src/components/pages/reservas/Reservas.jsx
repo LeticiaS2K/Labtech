@@ -5,12 +5,12 @@ import "./reservas.css";
 import CardReservasIcon from "../../../assets/icons/reservar.svg";
 import CardChavesIcon from "../../../assets/icons/Chave.svg";
 import CardMuralIcon from "../../../assets/icons/Calendar.svg";
-
+import Cards from "../../cards/Cards";
 export default function Reservas() {
-  return (
+  return (    
     <div className="reservas">
-      
       {/* GRID INFERIOR */}
+       <Cards/>         
       <section className="reservas__grid">
         {/* SALAS E RESERVAS */}
         <article className="panel panel--main">

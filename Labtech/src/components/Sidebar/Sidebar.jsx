@@ -1,33 +1,64 @@
-// src/components/Sidebar/Sidebar.jsx
 import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import HomeIcon from "../../assets/icons/Home.svg";
 import CalendarIcon from "../../assets/icons/Calendar.svg";
 import ChaveIcon from "../../assets/icons/Chave.svg";
-import ProfileIcon from "../../assets/icons/profile.svg";
-import EngrenagemIcon from "../../assets/icons/Engrenagem.svg";
 import InterrogacaoIcon from "../../assets/icons/interrogacao.svg";
 import SairIcon from "../../assets/icons/sair.svg";
-import Reservas from "../../assets/icons/reservar.svg";
 
-const topItems = [
-  { id: "profile", label: "Profile", icon: ProfileIcon, path: "/profile" },
-  { id: "home", label: "Home", icon: HomeIcon, path: "/" },
-  { id: "reservas", label: "Salas e Reservas", icon: CalendarIcon, path: "/reservas" },
-  { id: "chaves", label: "Chaves", icon: ChaveIcon, path: "/chaves" },
-  // { id: "mural", label: "Mural", icon: Reservas, path: "/mural" },
-  // { id: "config", label: "Configurações", icon: EngrenagemIcon, path: "/config" },
-];
+export default function Sidebar({ onLogout, isExpanded, setIsExpanded }) {
+  const [avatar, setAvatar] = useState(null);
 
-const bottomItems = [
-  { id: "ajuda", label: "Ajuda", icon: InterrogacaoIcon, path: "/ajuda", type: "link" },
-  { id: "sair", label: "Sair", icon: SairIcon, type: "logout" },
-];
+  // ✅ Carrega a foto do localStorage
+  useEffect(() => {
+    const savedAvatar = localStorage.getItem("profileAvatar");
+    if (savedAvatar) {
+      setAvatar(savedAvatar);
+    }
 
-export default function Sidebar({ onLogout })  {
+    // ✅ Escuta mudanças no storage (quando trocar a foto no Profile)
+    const handleStorageChange = () => {
+      const updatedAvatar = localStorage.getItem("profileAvatar");
+      setAvatar(updatedAvatar);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const topItems = [
+    {
+      id: "profile",
+      label: "Profile",
+      path: "/profile",
+      isProfile: true, // ✅ flag especial
+    },
+    { id: "home", label: "Home", icon: HomeIcon, path: "/" },
+    { id: "reservas", label: "Salas e Reservas", icon: CalendarIcon, path: "/reservas" },
+    { id: "chaves", label: "Chaves", icon: ChaveIcon, path: "/chaves" },
+  ];
+
+  const bottomItems = [
+    { id: "ajuda", label: "Ajuda", icon: InterrogacaoIcon, path: "/ajuda", type: "link" },
+    { id: "sair", label: "Sair", icon: SairIcon, type: "logout" },
+  ];
+
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isExpanded ? "sidebar--expanded" : ""}`}>
+
+      {/* ✅ BOTÃO DA SETINHA */}
+      <button
+        className="sidebar__toggle"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        {isExpanded ? "❮" : "❯"}
+      </button>
+
       <div className="sidebar__top">
         {topItems.map((item) => (
           <NavLink
@@ -37,14 +68,30 @@ export default function Sidebar({ onLogout })  {
               "sidebar__item" + (isActive ? " sidebar__item--active" : "")
             }
           >
-            <img src={item.icon} alt={item.label} />
+            {/* ✅ SE FOR O PROFILE, MOSTRA FOTO */}
+            {item.isProfile ? (
+              avatar ? (
+                <img
+                  src={avatar}
+                  alt="Foto de perfil"
+                  className="sidebar__avatar"
+                />
+              ) : (
+                <div className="sidebar__avatar sidebar__avatar--placeholder">
+                  U
+                </div>
+              )
+            ) : (
+              <img src={item.icon} alt={item.label} />
+            )}
+
+            {isExpanded && <span>{item.label}</span>}
           </NavLink>
         ))}
       </div>
 
       <div className="sidebar__bottom">
         {bottomItems.map((item) => {
-          // se for o item de logout, usa button + onLogout
           if (item.type === "logout") {
             return (
               <button
@@ -54,11 +101,11 @@ export default function Sidebar({ onLogout })  {
                 onClick={onLogout}
               >
                 <img src={item.icon} alt={item.label} />
+                {isExpanded && <span>{item.label}</span>}
               </button>
             );
           }
 
-          // os outros continuam sendo NavLink normal
           return (
             <NavLink
               key={item.id}
@@ -68,6 +115,7 @@ export default function Sidebar({ onLogout })  {
               }
             >
               <img src={item.icon} alt={item.label} />
+              {isExpanded && <span>{item.label}</span>}
             </NavLink>
           );
         })}

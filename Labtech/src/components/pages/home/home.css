@@ -139,7 +139,7 @@
 .status-pill {
   margin-top: 10px;
   align-self: center;
-  max-width: 280px;
+  max-width: 560px;
   background: #0077ff;
   border-radius: 999px;
   padding: 10px 16px;
@@ -198,3 +198,4 @@
     grid-template-columns: 1fr;
   }
 }
+

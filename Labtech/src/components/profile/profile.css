@@ -28,8 +28,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
 }
+
+/* FOTO DE PERFIL */
 
 .profile-avatar {
   width: 96px;
@@ -39,10 +41,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   font-size: 40px;
   font-weight: 700;
   color: #2563eb;
 }
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* BOTÃO "ALTERAR FOTO" ABAIXO DA BOLA */
+
+.profile-avatar-upload {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2563eb;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.profile-avatar-upload:hover {
+  text-decoration: underline;
+  color: #0b70ff;
+}
+
+/* INFO DO USUÁRIO */
 
 .profile-main-info {
   text-align: center;

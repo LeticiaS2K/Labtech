@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState } from "react"; // 1. Importado useState
 
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import Header from "./components/header/Header.jsx";
@@ -19,6 +19,9 @@ import Devolucao from "./components/pages/devolucao/Devolucao.jsx";
 
 function App() {
   const location = useLocation();
+
+  // 2. Estado para controlar se a Sidebar está expandida globalmente
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false); // Definindo FALSE como padrão (colapsada)
 
   // estado de autenticação (com persistência simples no localStorage)
   const [isAuth, setIsAuth] = useState(
@@ -61,11 +64,17 @@ function App() {
     );
   }
 
-
+  // ======= LAYOUT PRINCIPAL (com Sidebar e Header) =======
   return (
-    
-    <div className="app">
-      <Sidebar onLogout={handleLogout} />
+    // 3. Classe condicional no container principal
+    <div className={`app ${!isSidebarExpanded ? 'app--sidebar-collapsed' : ''}`}>
+      
+      {/* 4. Passar o estado e o setter para o Sidebar */}
+      <Sidebar 
+        onLogout={handleLogout} 
+        isExpanded={isSidebarExpanded}
+        setIsExpanded={setIsSidebarExpanded}
+      />
 
       <div className="app__main">
         <Header />
@@ -77,12 +86,12 @@ function App() {
             <Route path="/login" element={<Login />} />
 
             <Route path="/chaves" element={<Chaves />} />
-            <Route path="/entrega" element={<Entrega />} />     
-            <Route path="/devolucao" element={<Devolucao />} />  
+            <Route path="/entrega" element={<Entrega />} />     
+            <Route path="/devolucao" element={<Devolucao />} />  
 
             <Route path="/reservas" element={<Reservas />} />
-            {/* <Route path="/mural" element={<Mural />} />
-            <Route path="/config" element={<Config />} /> */}
+            <Route path="/mural" element={<Mural />} />
+            <Route path="/config" element={<Config />} />
             <Route path="/ajuda" element={<Ajuda />} />
 
             <Route path="*" element={<Navigate to="/" />} />
