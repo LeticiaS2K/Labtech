@@ -1,3 +1,12 @@
+.sidebar__item--profile {
+  justify-content: center;         /* centraliza bolinha quando fechado */
+}
+
+.sidebar--expanded .sidebar__item--profile {
+  justify-content: flex-start;     /* quando aberto, volta normal */
+}
+
+
 /* src/components/Sidebar/Sidebar.css */
 
 .sidebar {
@@ -10,6 +19,13 @@
   justify-content: space-between;
   position: relative;
   transition: width 0.3s ease;
+}
+
+/* Dá um espaço maior depois do item de perfil */
+.sidebar__top .sidebar__item:first-child {
+  margin-bottom: 24px;   /* ajusta o valor que achar mais bonito */
+  border-bottom: 1px solid #e5e7eb; /* opcional, só pra separar visualmente */
+  padding: 0;
 }
 
 /* ✅ QUANDO EXPANDIDA */
@@ -40,7 +56,7 @@
 
 .sidebar__item {
   width: 100%;
-  height: 42px;
+  height: 50px;
   border-radius: 100px;
   display: flex;
   align-items: center;
@@ -55,8 +71,8 @@
 }
 
 .sidebar__item img {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
  
 }
 

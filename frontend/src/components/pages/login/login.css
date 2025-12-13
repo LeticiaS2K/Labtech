@@ -13,8 +13,22 @@
   flex: 1;
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  position: relative;   /* 👈 importante */
 }
+
+/* Logo sobre o quadro branco */
+.login-left-logo {
+  position: absolute;
+  /* ajuste esses valores até ficar certinho no “círculo vermelho” */
+  top: 25%;
+  left: 30%;   
+  transform: translate(-50%, -50%); /* centraliza nesse ponto */
+
+  width: 380px;          /* tamanho da logo */
+  max-width: 40%;
+  height: auto;
+}
+
 
 /* lado direito - fundo branco + blob azul */
 

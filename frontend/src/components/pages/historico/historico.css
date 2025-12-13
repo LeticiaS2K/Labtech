@@ -1,0 +1,175 @@
+/* src/components/pages/historico/historico.css */
+.historico-page {
+  display: flex;
+  flex-direction: column;
+  margin: 5% 20% 0 20%;
+  gap: 24px;
+}
+
+.historico-section {
+  margin-top: 3rem;
+}
+
+/* GRID DOS CARDS */
+.main__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+@media (max-width: 768px) {
+  .main__cards { grid-template-columns: 1fr; }
+}
+
+/* ================================================= */
+/*             ÁREA DA TABELA (COM SCROLL)           */
+/* ================================================= */
+
+.historico-header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 12px;
+  margin-top: 1.5rem;
+}
+
+.historico-header-actions h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  
+}
+
+/* Botão Exportar */
+.historico-export-btn {
+  background-color: var(--main-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+.historico-export-btn:hover { background-color: #1d4ed8; }
+
+
+/* CONTAINER BRANCO QUE SEGURA A TABELA */
+.historico-table-wrapper {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  
+  /* HABILITA O SCROLLBAR HORIZONTAL */
+  width: 100%;
+  overflow-x: auto; 
+  padding-bottom: 10px; /* Espaço pro scrollbar não colar */
+}
+
+/* ESTILIZAÇÃO DO PRÓPRIO SCROLLBAR (Opcional, mas fica bonito) */
+.historico-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+.historico-table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+.historico-table-wrapper::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 8px;
+}
+.historico-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 
+   A TABELA EM SI 
+   Definimos min-width: 1500px para FORÇAR ela a ser maior que a tela.
+   Assim a barra de rolagem aparece obrigatóriamente.
+*/
+.historico-table {
+  width: 100%;
+  min-width: 1500px; /* <--- OBRIGA O SCROLL APARECER */
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.historico-table th, 
+.historico-table td {
+  padding: 18px 24px;
+  border-bottom: 1px solid #f3f4f6;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Cabeçalho cinza claro */
+.historico-table th {
+  background-color: #f9fafb;
+  color: #374151;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* Hover na linha (cinza bem leve apenas para guiar, sem cor forte) */
+.historico-table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+/* ================================================= */
+/*           BADGES / PILULAS DE STATUS              */
+/* ================================================= */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 99px; /* Formato pílula */
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: capitalize;
+}
+
+/* 
+   STATUS: DEVOLVIDO 
+   Fundo Verde Claro / Letra Verde Escura
+*/
+.status-badge--devolvido {
+  background-color: #dcfce7 !important;
+  color: #166534 !important;
+}
+
+/* 
+   STATUS: PENDENTE 
+   Fundo Vermelho Claro / Letra Vermelha Escura
+*/
+.status-badge--pendente {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+/* STATUS: ATRASADO (Opcional, vermelho também) */
+.status-badge--atrasado {
+  background-color: #fecaca !important;
+  color: #7f1d1d !important;
+}
+
+/* COLUNA DE OBSERVAÇÃO */
+/* Com a tabela larga, a observação aparece completa */
+.obs-col {
+  width: 350px; /* Define largura generosa para obs */
+  min-width: 300px;
+}
+
+.obs-text {
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: normal; /* Permite quebrar linha se quiser, ou use nowrap */
+}

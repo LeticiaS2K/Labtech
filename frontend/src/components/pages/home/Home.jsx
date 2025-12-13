@@ -1,63 +1,104 @@
 // src/components/pages/home/Home.jsx
-import "./home.css";
-import Cards from "../../cards/Cards";
 import { useEffect, useState } from "react";
+import "./home.css";
+
+import Cards from "../../cards/Cards";
 import { API_URL } from "../../../config/api.js";
 
 export default function Home() {
-  const [stats, setStats] = useState(null);
-  const [lastDelivery, setLastDelivery] = useState(null);
+  const [dashboard, setDashboard] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function loadDashboard() {
+    async function fetchDashboard() {
       try {
         const res = await fetch(`${API_URL}/api/dashboard`, {
-          credentials: "include", // envia cookie de sessão
+          credentials: "include",
         });
-
-        if (res.status === 401) {
-          setError("Não autenticado.");
-          return;
-        }
 
         const data = await res.json().catch(() => ({}));
 
-        if (!data.success) {
+        if (!res.ok || !data.success) {
           throw new Error(data.message || "Erro ao carregar dashboard.");
         }
 
-        setStats(data.stats || null);
-        setLastDelivery(data.last_delivery || null);
+        setDashboard(data);
       } catch (err) {
-        console.error("Erro ao carregar dashboard:", err);
+        console.error("Erro ao buscar dashboard:", err);
         setError(err.message);
+      } finally {
+        setLoading(false);
       }
     }
 
-    loadDashboard();
+    fetchDashboard();
   }, []);
 
-  // Valores de fallback se ainda não carregou
-  const totalChaves = stats?.total_chaves ?? 0;
-  const disponiveis = stats?.disponiveis ?? 0;
+  // ========== DERIVADOS DO DASHBOARD ==========
 
-  // aqui estou assumindo:
+  // aqui assumo que o backend manda algo como:
+  // { success: true, stats: {...}, last_delivery: {...} }
+  // ou { ..., ultima_mov: {...} }
+  const stats = dashboard?.stats || {};
+  const lastDelivery =
+    dashboard?.last_delivery || dashboard?.ultima_mov || null;
+
+    // 👇 Só pra você ver no console do navegador o que está vindo do backend
+console.log("lastDelivery recebido da API:", lastDelivery);
+
+// Monta o texto de "Salas / Labs" tentando vários nomes possíveis de campo
+const salaLabsText = lastDelivery
+  ? (() => {
+      const identificacao =
+        lastDelivery.chave_identificacao ||   // ex: "LAB-01"
+        lastDelivery.identificacao ||
+        lastDelivery.chave ||
+        lastDelivery.sala ||
+        lastDelivery.destino;
+
+      const tipo =
+        lastDelivery.tipo_sala ||             // ex: "Laboratório"
+        lastDelivery.tipo ||
+        lastDelivery.chave_tipo ||
+        lastDelivery.chave_descricao ||
+        lastDelivery.descricao;
+
+      if (!identificacao && !tipo) return "-";
+      if (!tipo) return identificacao;
+      if (!identificacao) return tipo;
+      return `${identificacao} - ${tipo}`;
+    })()
+  : "-";
+
+
+  const totalChaves = stats.total_chaves ?? 0;
+  const disponiveis = stats.disponiveis ?? 0;
+  const pendentes = stats.pendentes ?? 0;
+
   // ocupadas = total - disponíveis
   const ocupadas =
-    stats && typeof stats.total_chaves === "number"
-      ? stats.total_chaves - (stats.disponiveis || 0)
-      : 0;
+    typeof totalChaves === "number" ? totalChaves - disponiveis : 0;
 
-  // e "Reservadas" ≈ pendentes
-  const reservadas = stats?.pendentes ?? 0;
+  // Reservadas ≈ pendentes (chaves em uso)
+  const reservadas = pendentes;
 
-  // status / professor / sala
-  const status = (lastDelivery?.status || "Pendente").toUpperCase();
-  const professor = lastDelivery?.responsavel || "—";
-  const sala = lastDelivery?.sala || "—";
+  // STATUS GERAL NA PILULA "DEVOLUÇÃO"
+  // tenta usar status da última entrega; se não tiver, define pela quantidade
+  let rawStatus = lastDelivery?.status;
 
-  // classe extra pro badge de status (mantendo seu CSS)
+  if (!rawStatus) {
+    if (pendentes > 0) {
+      rawStatus = "Pendente";
+    } else if ((stats.total_entregas ?? 0) === 0) {
+      rawStatus = "Sem registros";
+    } else {
+      rawStatus = "Devolvido";
+    }
+  }
+
+  const status = rawStatus.toUpperCase();
+
   const statusBadgeClass =
     status === "PENDENTE"
       ? "status-pill__badge status-pill__badge--danger"
@@ -68,7 +109,7 @@ export default function Home() {
       {/* CARDS SUPERIORES */}
       <Cards />
 
-      {/* se quiser, pode mostrar erro simples aqui */}
+      {/* Erro simples, se houver */}
       {error && <p className="home-error">{error}</p>}
 
       {/* GRID INFERIOR */}
@@ -80,19 +121,30 @@ export default function Home() {
           <ul className="stats-list">
             <li className="stats-item">
               <span className="stats-item__label">Total de salas:</span>
-              <span className="stats-item__value">{totalChaves}</span>
+              <span className="stats-item__value">
+                {loading ? "…" : totalChaves}
+              </span>
             </li>
+
             <li className="stats-item">
               <span className="stats-item__label">Ocupadas:</span>
-              <span className="stats-item__value">{ocupadas}</span>
+              <span className="stats-item__value">
+                {loading ? "…" : ocupadas}
+              </span>
             </li>
+
             <li className="stats-item">
               <span className="stats-item__label">Reservadas:</span>
-              <span className="stats-item__value">{reservadas}</span>
+              <span className="stats-item__value">
+                {loading ? "…" : reservadas}
+              </span>
             </li>
+
             <li className="stats-item">
               <span className="stats-item__label">Disponíveis:</span>
-              <span className="stats-item__value">{disponiveis}</span>
+              <span className="stats-item__value">
+                {loading ? "…" : disponiveis}
+              </span>
             </li>
           </ul>
         </article>
@@ -105,11 +157,13 @@ export default function Home() {
 
             <div className="status-pill">
               <span className="status-pill__label">Status :</span>
-              <span className={statusBadgeClass}>{status}</span>
+              <span className={statusBadgeClass}>
+                {loading ? "CARREGANDO..." : status}
+              </span>
             </div>
           </article>
 
-          {/* ÚLTIMA ATUALIZAÇÃO */}
+          {/* ÚLTIMA ATUALIZAÇÃO – EXATAMENTE DO JEITO QUE VOCÊ POSTOU */}
           <article className="panel">
             <h3 className="panel__title panel__title--center">
               ÚLTIMA ATUALIZAÇÃO
@@ -117,14 +171,19 @@ export default function Home() {
 
             <div className="info-pill">
               <span className="info-pill__label">Professor(a):</span>
-              <span className="info-pill__value">{professor}</span>
+              <span className="info-pill__value">
+                {lastDelivery?.responsavel || "-"}
+              </span>
             </div>
 
             <div className="info-pill">
-              <span className="info-pill__label">Tipo:</span>
-              <span className="info-pill__value">{sala}</span>
+              <span className="info-pill__label">Salas / Labs</span>
+              <span className="info-pill__value">
+                {salaLabsText}
+              </span>
             </div>
           </article>
+
         </div>
       </section>
     </div>

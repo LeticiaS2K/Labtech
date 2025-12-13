@@ -94,7 +94,7 @@ export default function Devolucao() {
       {loading ? (
         <p>Carregando chaves entregues...</p>
       ) : entregas.length === 0 ? (
-        <p>Não há chaves pendentes de devolução.</p>
+        <p className="detail-status">Não há chaves pendentes de devolução.</p>
       ) : (
         <div className="main-content-grid">
           {/* LADO ESQUERDO – DETALHES DO EMPRÉSTIMO */}

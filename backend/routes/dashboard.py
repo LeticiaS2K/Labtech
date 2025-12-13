@@ -1,108 +1,85 @@
 # backend/routes/dashboard.py
-from flask import Blueprint, render_template, session, redirect, url_for, jsonify, request
+from flask import Blueprint, jsonify, session, current_app
 from database import db
 from Models.chave import Chave
 from Models.entrega import Entrega
 
-dashboard_bp = Blueprint("dashboard", __name__, template_folder="../templates")
+dashboard_bp = Blueprint("dashboard", __name__, url_prefix="/api")
 
 
-def login_required(view):
-    from functools import wraps
-
-    @wraps(view)
-    def wrapped(*args, **kwargs):
-        if "user_id" not in session:
-            return redirect(url_for("auth.login"))
-        return view(*args, **kwargs)
-
-    return wrapped
-
-
-# ===== ROTA HTML ANTIGA (se um dia quiser usar templates) =====
-@dashboard_bp.route("/")
-@login_required
-def index():
-    total_chaves = Chave.query.count()
-    chaves_disponiveis = Chave.query.filter_by(disponivel=True).count()
-
-    # AQUI JÁ USAMOS DEVOLVIDA EM VEZ DE STATUS
-    entregas_pendentes = Entrega.query.filter_by(devolvida=False).count()
-    devolvidas = Entrega.query.filter_by(devolvida=True).count()
-
-    stats = {
-        "total_chaves": total_chaves,
-        "disponiveis": chaves_disponiveis,
-        "pendentes": entregas_pendentes,
-        "devolvidas": devolvidas,
-    }
-
-    return render_template(
-        "dashboard.html", stats=stats, user_name=session.get("user_name")
-    )
-
-
-# ===== API PARA O REACT: GET /api/dashboard =====
-@dashboard_bp.route("/api/dashboard", methods=["GET", "OPTIONS"])
-def api_dashboard():
-    # Resposta pro preflight CORS
-    if request.method == "OPTIONS":
-        return ("", 200)
-
-    if "user_id" not in session:
-        return jsonify({"success": False, "message": "Não autenticado."}), 401
-
+@dashboard_bp.route("/dashboard", methods=["GET"])
+def dashboard_api():
     try:
+        # --- ESTATÍSTICAS DE CHAVES ---
         total_chaves = Chave.query.count()
         chaves_disponiveis = Chave.query.filter_by(disponivel=True).count()
 
-        # ⚠️ PRINCIPAL MUDANÇA: aqui usamos devolvida em vez de status
+        # --- ESTATÍSTICAS DE ENTREGAS ---
+        total_entregas = Entrega.query.count()
         entregas_pendentes = Entrega.query.filter_by(devolvida=False).count()
-        devolvidas = Entrega.query.filter_by(devolvida=True).count()
+        entregas_devolvidas = Entrega.query.filter_by(devolvida=True).count()
 
-        # última entrega (pela data/hora)
+        # --- STATUS GERAL ---
+        if total_entregas == 0:
+            # nunca teve entrega registrada
+            status_geral = "Sem registros"
+        elif entregas_pendentes > 0:
+            # pelo menos uma chave não devolvida
+            status_geral = "Pendente"
+        else:
+            # já teve entrega, mas todas devolvidas
+            status_geral = "Devolvido"
+
+        # --- ÚLTIMA MOVIMENTAÇÃO (entrega ou devolução) ---
         ultima = (
             Entrega.query.order_by(Entrega.data_hora_entrega.desc()).first()
         )
 
-        last_delivery = None
         if ultima:
-            last_delivery = {
-                # se o campo status existir, beleza; se não, caímos em "Pendente"/"Devolvido"
-                "status": getattr(
-                    ultima,
-                    "status",
-                    "Devolvido" if ultima.devolvida else "Pendente",
-                ),
+            ultima_json = {
+                "id": ultima.id,
+                "chave": ultima.chave.identificacao if ultima.chave else None,
+                "destino": ultima.destino,
                 "responsavel": ultima.responsavel,
-                "sala": ultima.destino,
-                "created_at": ultima.data_hora_entrega.isoformat()
-                if ultima.data_hora_entrega
-                else None,
+                "tipo": "Pendente" if not ultima.devolvida else "Devolvido",
+                "data_entrega": (
+                    ultima.data_hora_entrega.isoformat()
+                    if ultima.data_hora_entrega
+                    else None
+                ),
+                "data_devolucao": (
+                    ultima.data_hora_devolucao.isoformat()
+                    if ultima.data_hora_devolucao
+                    else None
+                ),
+                "observacao": ultima.observacao,
             }
+        else:
+            ultima_json = None
 
+        return jsonify(
+            {
+                "success": True,
+                "stats": {
+                    "total_chaves": total_chaves,
+                    "disponiveis": chaves_disponiveis,
+                    "total_entregas": total_entregas,
+                    "pendentes": entregas_pendentes,
+                    "devolvidas": entregas_devolvidas,
+                },
+                "status_geral": status_geral,
+                "ultima_mov": ultima_json,
+            }
+        ), 200
+
+    except Exception as e:
+        current_app.logger.exception("Erro em /api/dashboard")
         return (
             jsonify(
                 {
-                    "success": True,
-                    "stats": {
-                        "total_chaves": total_chaves,
-                        "disponiveis": chaves_disponiveis,
-                        "pendentes": entregas_pendentes,
-                        "devolvidas": devolvidas,
-                    },
-                    "last_delivery": last_delivery,
+                    "success": False,
+                    "message": "Erro interno ao carregar dashboard.",
                 }
-            ),
-            200,
-        )
-
-    except Exception as e:
-        # loga no terminal pra você ver o erro real
-        print("ERRO em /api/dashboard:", e)
-        return (
-            jsonify(
-                {"success": False, "message": "Erro interno ao carregar dashboard."}
             ),
             500,
         )

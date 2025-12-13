@@ -5,8 +5,8 @@ import "./cards.css";
 import { Link } from 'react-router-dom';
 
 import CardReservasIcon from "../../assets/icons/reservar.svg";
-import CardChavesIcon from "../../assets/icons/Chave.svg";
-import CardMuralIcon from "../../assets/icons/Calendar.svg"; 
+import CardChavesIcon from "../../assets/icons/Chave.svg"; 
+import HistoricoIcon from "../../assets/icons/Calendar.svg";
 
 export default function Cards() {
   return (
@@ -37,24 +37,25 @@ export default function Cards() {
             <span className="main-card__tag">UDF</span>
           </div>
           <h2 className="main-card__title">
-            Entrega e
-            <br />
-            Recebimento de
-            <br />
-            chaves
+            Chaves
           </h2>
         </Link>
 
         {/* Card 3: Mural (Comentado) */}
-        {/* <article className="main-card">
+        <Link to="/historico" className="main-card">
           <div className="main-card__top">
             <div className="main-card__icon">
-              <img src={CardMuralIcon} alt="Mural" />
+              <img src={HistoricoIcon} alt="Mural" />
             </div>
             <span className="main-card__tag">UDF</span>
           </div>
-          <h2 className="main-card__title">Mural</h2>
-        </article> */}
+          <h2 className="main-card__title">
+            Histórico e
+            <br />
+            Relatório
+          </h2>
+        </Link>
+        
       </section>
     </div>
   );

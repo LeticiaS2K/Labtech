@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import HomeIcon from "../../assets/icons/Home.svg";
 import CalendarIcon from "../../assets/icons/Calendar.svg";
+import HistoricoIcon from "../../assets/icons/Calendar.svg";
 import ChaveIcon from "../../assets/icons/Chave.svg";
 import InterrogacaoIcon from "../../assets/icons/interrogacao.svg";
 import SairIcon from "../../assets/icons/sair.svg";
@@ -63,8 +64,9 @@ export default function Sidebar({ user, onLogout, isExpanded, setIsExpanded }) {
       isProfile: true, // ✅ flag especial
     },
     { id: "home", label: "Home", icon: HomeIcon, path: "/" },
-    { id: "reservas", label: "Salas e Reservas", icon: CalendarIcon, path: "/reservas" },
+    // { id: "reservas", label: "Salas e Reservas", icon: CalendarIcon, path: "/reservas" },
     { id: "chaves", label: "Chaves", icon: ChaveIcon, path: "/chaves" },
+    { id: "historico", label: "Histórico", path: "/historico", icon: HistoricoIcon, },
   ];
 
   const bottomItems = [
@@ -89,7 +91,9 @@ export default function Sidebar({ user, onLogout, isExpanded, setIsExpanded }) {
             key={item.id}
             to={item.path}
             className={({ isActive }) =>
-              "sidebar__item" + (isActive ? " sidebar__item--active" : "")
+              "sidebar__item" +
+              (item.isProfile ? " sidebar__item--profile" : "") +
+              (isActive && !item.isProfile ? " sidebar__item--active" : "")
             }
           >
             {/* ✅ SE FOR O PROFILE, MOSTRA FOTO */}

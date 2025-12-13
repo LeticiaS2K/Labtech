@@ -14,7 +14,7 @@
 .devolucao-chaves-container {
   padding: 2rem;
   background-color: var(--light-bg);
-  min-height: 100vh;
+  min-height: 93vh;
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -36,6 +36,18 @@
   color: var(--dark-text);
   text-align: center;
   margin-bottom: 0.5rem;
+}
+
+
+.detail-status {
+  font-size: 2rem; /* Aumentado para impacto */
+  font-weight: 800;
+  color: #15803d;
+
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center;     /* Centraliza verticalmente */
+  height: 50vh;           
 }
 
 .main-title {

@@ -24,3 +24,13 @@ vite.config
 *.njsproj
 *.sln
 *.sw?
+# Python bytecode/cache
+__pycache__/
+*.py[cod]
+
+
+# DB
+*.db
+*.sqlite
+*.sqlite3
+backend/instance/labtech.db

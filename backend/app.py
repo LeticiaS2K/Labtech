@@ -2,8 +2,11 @@ from flask import Flask
 from config import Config
 from database import db
 import os
+from routes.dashboard import dashboard_bp
 
 from flask_cors import CORS  
+
+
 
 def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
